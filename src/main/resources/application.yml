@@ -1,17 +1,18 @@
 spring:
   datasource:
-    #url: jdbc:sqlite::resource:db/test.db
-    url: jdbc:sqlite:D:\\zw\test\\sqlitedbtmp\\testDB.db
-#    url: jdbc:sqlite:C:\\test\\sqlitedbtmp\\testDB.db
+    # journal_mode=WAL 开启 WAL模式 支持并发读
+    # busy_timeout=10000 超时时间 锁库自动重试10s
+    # synchronous=NORMAL 同步模式 不要求直接刷到磁盘 性能和安全的平衡点
+    url: "jdbc:sqlite:testDB.db?journal_mode=WAL&busy_timeout=10000&synchronous=NORMAL"
     driver-class-name: org.sqlite.JDBC
+    hikari:
+      maximum-pool-size: 8
+      minimum-idle: 1
 
 mybatis-plus:
-  type-aliases-package: com.jcca.entity
-  mapper-locations: classpath:/mapper/*.xml
-  # 驼峰命名
+  type-aliases-package: com.zw.sqliteTest.entity
   configuration:
     map-underscore-to-camel-case: true
-    # 打印sql
-  log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     banner: true
